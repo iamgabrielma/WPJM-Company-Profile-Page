@@ -48,8 +48,10 @@ function gma_wpjmcpp_display_job_meta_data() {
 
   //$data = get_post_meta( $post->ID, "", true);
   $data = get_post_meta( $post->ID, "_company_name", true);
-  $url = "https://google.com";
-
+  //$url = "https://google.com";
+  $url = 'http://localhost:8888/local/company/test-company/';
+  //##TODO: escape and html secure input for $url and $data
+  //##TODO: internationalize profile string
   $company_name = "<a href='" . $url . "'>" . $data . " profile</a>";
   //var_dump($data);
   echo $company_name;
@@ -72,6 +74,9 @@ function gma_wpjmccp_companies_archive_page_template( $template ){
 
 	if ( is_tax('companies') ) {
 
+		// possibly the function exists already within wpj? https://github.com/Automattic/WP-Job-Manager/blob/914f790050a7069a2bf7db9d5b91480d6bd256be/wp-job-manager-template.php
+
+		
 		//$plugin_directory = dirname(__FILE__);
 		//$new_template = locate_template( array( 'company-archive-page-template.php' ) );
 		//error_log( print_r(dirname(__FILE__) . '/wpjm-company-profile-page/company-archive-page-template.php'));
@@ -82,11 +87,12 @@ function gma_wpjmccp_companies_archive_page_template( $template ){
 		// if (!empty($new_template)) {
 		// 	return $new_template;
 		// }
-	
-	}
+		return $new_template;
+	} else {
 
-	//return $template;
-	return $new_template;
+		return $template;
+	}
+	
 }
 
 // ### Admin notice + debug log error if core plugin is not active
