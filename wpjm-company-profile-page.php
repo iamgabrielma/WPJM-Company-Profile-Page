@@ -48,13 +48,30 @@ function gma_wpjmcpp_display_job_meta_data() {
 
   //$data = get_post_meta( $post->ID, "", true);
   $data = get_post_meta( $post->ID, "_company_name", true);
+
+  $the_new_company_taxonomy = wp_get_post_terms($post->ID, 'companies');
+  //print_r($the_new_company_taxonomy[0]->slug);
+  $single_company_slug = $the_new_company_taxonomy[0]->slug;
+
   //$url = "https://google.com";
-  $url = 'http://localhost:8888/local/company/test-company/';
+  $url = 'http://localhost:8888/local/company/' . $single_company_slug;
   //##TODO: escape and html secure input for $url and $data
   //##TODO: internationalize profile string
   $company_name = "<a href='" . $url . "'>" . $data . " profile</a>";
   //var_dump($data);
   echo $company_name;
+
+  // echo ' || ';
+  // var_dump(get_post_meta( $post->ID ));
+  // echo ' || ';
+  // $the_company_taxonomy = get_the_terms($post->ID, 'companies', true);
+  // echo ' || ';
+  // var_dump($the_company_taxonomy[0]->slug);
+  // echo ' || ';
+  //$the_new_company_taxonomy = wp_get_post_terms($post->ID, 'companies');
+  //print_r($the_new_company_taxonomy[0]->slug);
+  //$the_company_slug = $the_company_taxonomy['slug'];
+  //echo $the_company_slug;
 
 }
 
@@ -76,7 +93,7 @@ function gma_wpjmccp_companies_archive_page_template( $template ){
 
 		// possibly the function exists already within wpj? https://github.com/Automattic/WP-Job-Manager/blob/914f790050a7069a2bf7db9d5b91480d6bd256be/wp-job-manager-template.php
 
-		
+
 		//$plugin_directory = dirname(__FILE__);
 		//$new_template = locate_template( array( 'company-archive-page-template.php' ) );
 		//error_log( print_r(dirname(__FILE__) . '/wpjm-company-profile-page/company-archive-page-template.php'));

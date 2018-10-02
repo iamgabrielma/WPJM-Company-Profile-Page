@@ -9,11 +9,11 @@ get_header(); ?>
 
 		<?php the_post(); ?>
 		<h1 class="entry-title"><?php /*the_title();*/ ?></h1>
-		<h1 class="entry-title">Jobs by Company LTD 2 </h1>
+		<h1 class="entry-title">Jobs by <strong>test-company</strong> </h1>
 		
 		<?php /*get_search_form();*/ ?>
 		
-		<h2>COMPANY ARCHIVE PAGE TEMPLATE</h2>
+		<h2>COMPANY ARCHIVE PAGE TEMPLATE [<strong>test-company</strong>] </h2>
 		<ul>
 			<?php
 
@@ -29,9 +29,18 @@ get_header(); ?>
 
 				$posts_array = get_posts( $args );
 				//var_dump($posts_array);
-				//print_r( $posts_array );
+				print_r( $args );
+
+				// I need to get all the taxonomies to filter them down later on
+				$my_individual_companies = get_terms( array( 'taxonomy' => 'companies') );
+				print_r($my_individual_companies);
 
 				foreach ($posts_array as $job => $data) {
+
+					// URL == taxonomy, display, otherwise dont
+					// if (condition) {
+					// 	# code...
+					// }
 					 
 					 echo '<br>';
 					 echo '----------------';
