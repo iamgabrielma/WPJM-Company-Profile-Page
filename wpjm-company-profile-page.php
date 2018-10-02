@@ -22,6 +22,22 @@ if ( !class_exists( 'WP_Job_Manager' ) ) {
 
 } else {
 	add_action( 'single_job_listing_meta_end', 'gma_wpjmcpp_display_job_meta_data' );
+	add_action( 'init', 'gma_wpjmcpp_job_taxonomy_init');
+}
+
+// ### Creates custom job taxonomy
+function gma_wpjmcpp_job_taxonomy_init(){
+
+	register_taxonomy(
+		'companies',
+		//'page',
+		'job_listing',
+		array(
+			'label' => __( 'Companies' ),
+			'rewrite' => array( 'slug' => 'company'),
+			'description' => "Hello description",
+		)
+	);
 }
 
 
@@ -39,6 +55,12 @@ function gma_wpjmcpp_display_job_meta_data() {
   echo $company_name;
 
 }
+
+// ### Add company column to wp-admin > All Jobs
+
+
+// ### Create a category for companies in the URL permalink.
+
 
 // ### Create an empty page for each company via maybe wp_insert_post, post_type = page and post_title = company name , post_status = publish, content = company info.
 
