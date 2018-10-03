@@ -23,16 +23,22 @@ get_header(); ?>
 				//$post_type = get_post_type();
 				$post_type = wp_get_post_terms($post->ID, 'companies');
 				$post_type_slug = $post_type[0]->slug;
+				$post_type_description = $post_type[0]->description;
 				//$post_type_data = get_post_type_object( $post_type );
 				//$post_type_slug = $post_type_data->rewrite['slug'];
-				//var_dump($post_type);
+				var_dump($post_type);
 				//var_dump($post_type_slug);
 				//var_dump($post_type_data);
 				//var_dump($post_type_slug);
 
 		?>
-
-		<h1 class="entry-title"><?php /*the_title();*/ ?></h1>
+		<?php 
+		// http://localhost:8888/local/wp-content/plugins/wp-job-manager/assets/images/company.png
+		//the_company_logo(); 
+		//the_company_tagline();
+		?>
+		<h1 class="entry-title">About</h1>
+		<?php echo $post_type_description; ?>
 		<h1 class="entry-title">Jobs by <strong><?php echo $post_type_slug ?></strong> </h1>
 		
 		<?php /*get_search_form();*/ ?>

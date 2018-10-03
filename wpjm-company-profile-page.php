@@ -25,6 +25,10 @@ if ( !class_exists( 'WP_Job_Manager' ) ) {
 	add_action( 'single_job_listing_meta_end', 'gma_wpjmcpp_display_job_meta_data' );
 	add_action( 'init', 'gma_wpjmcpp_job_taxonomy_init');
 	add_action( 'template_include', 'gma_wpjmccp_companies_archive_page_template' );
+
+	/**/
+	// https://developer.wordpress.org/reference/hooks/create_taxonomy/
+
 }
 
 // ## Template loader to edit archives
@@ -83,6 +87,28 @@ function gma_wpjmcpp_job_taxonomy_init(){
 	);
 }
 
+/*
+* Creating new taxonomy data. Testing from here: https://wordpress.stackexchange.com/questions/211703/need-a-simple-but-complete-example-of-adding-metabox-to-taxonomy
+*/
+// EDIT COLUMNS
+add_filter( 'manage_edit-companies_columns', '___edit_term_columns' );
+function ___edit_term_columns( $columns ) {
+
+    $columns['__term_meta_text'] = __( 'TERM META TEXT', 'text_domain' );
+
+    return $columns;
+}
+
+// ADD FIELD TO CATEGORY TERM PAGE
+add_action( 'companies_add_form_fields', '___add_form_field_term_meta_text' );
+function ___add_form_field_term_meta_text() { ?>
+    <?php wp_nonce_field( basename( __FILE__ ), 'term_meta_text_nonce' ); ?>
+    <div class="form-field term-meta-text-wrap">
+        <label for="term-meta-text"><?php _e( 'TERM META TEXT', 'text_domain' ); ?></label>
+        <input type="text" name="term_meta_text" id="term-meta-text" value="" class="term-meta-text-field" />
+    </div>
+<?php }
+
 
 function gma_wpjmcpp_display_job_meta_data() {
   
@@ -100,7 +126,7 @@ function gma_wpjmcpp_display_job_meta_data() {
   $url = 'http://localhost:8888/local/company/' . $single_company_slug;
   //##TODO: escape and html secure input for $url and $data
   //##TODO: internationalize profile string
-  $company_name = "<a href='" . $url . "'>" . $data . " profile</a>";
+  $company_name = "<li><a href='" . $url . "'>" . $data . " profile</a></li>";
   //var_dump($data);
   echo $company_name;
 
