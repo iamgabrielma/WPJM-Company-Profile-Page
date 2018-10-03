@@ -37,7 +37,7 @@ get_header(); ?>
 		
 		<?php /*get_search_form();*/ ?>
 		
-		<h2>COMPANY ARCHIVE PAGE TEMPLATE [<strong><?php echo $post_type_slug ?></strong>] </h2>
+
 		<ul>
 			<?php
 
