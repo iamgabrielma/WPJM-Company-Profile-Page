@@ -181,40 +181,41 @@ function gma_wpjmcpp_get_term_meta_text( $term_id ) {
 */
 function gma_wpjmcpp_save_term_meta_text( $term_id ){
 
-	// old_value vs new_value, compare and update.
-	// update_term_meta() ?
-	//$term_meta = get_term_meta( $term_id );
-	//var_dump($term_meta);
-	//$old_value  = gma_wpjmcpp_get_term_meta_text( $term_id );
-	//$new_value = isset( $_POST['__term_meta_text'] );
-	//update_term_meta( $term_id, '__term_meta_text', $old_value );
 
-	//update_term_meta( $term_id, '__term_meta_text', $new_value );
-	//var_dump($old_value);
-	//$terms = get_terms( 'companies' );
-	//var_dump($terms);
 	$old_value  = gma_wpjmcpp_get_term_meta_text( $term_id );
-    //$new_value = "DEBUG: New value!";
 
     if (isset( $_POST['term_meta_text'] )) {
     	$new_value = $_POST['term_meta_text'];
     }
 
 	update_term_meta( $term_id, '__term_meta_text', $new_value );
-	//print_r($old_value . '<br>'); // DEBUG: metadata is here
-	//print_r($new_value . '<br>'); // DEBUG: New value!
-	//print_r($term_id . '<br>'); // 35
-	//die();
-
-	// ## metadata seems good, but is not output visually.
-
-    // if ( $old_value && '' === $new_value )
-    //     delete_term_meta( $term_id, '__term_meta_text' );
-
-    // else if ( $old_value !== $new_value )
-    //     update_term_meta( $term_id, '__term_meta_text', $new_value );
 
 }
+
+/* 
+* Taxonomy metadata : Display metadata in Columns
+*/
+add_filter( 'manage_companies_custom_column', 'gma_wpjmcpp_manage_term_custom_column', 10, 3 );
+
+function gma_wpjmcpp_manage_term_custom_column( $out, $column, $term_id ) {
+
+    if ( '__term_meta_text' === $column ) {
+
+        $value  = gma_wpjmcpp_get_term_meta_text( $term_id );
+
+        if ( ! $value )
+            $value = '';
+
+        $out = sprintf( '<span class="term-meta-text-block" style="" >%s</div>', esc_attr( $value ) );
+    }
+
+    return $out;
+}
+
+
+/* 
+* Taxonomy metadata : Saves metadata on taxonomy creation
+*/
 
 
 function gma_wpjmcpp_display_job_meta_data() {
