@@ -34,9 +34,13 @@ if ( !class_exists( 'WP_Job_Manager' ) ) {
 	add_filter( 'manage_edit-companies_columns', 'gma_wpjmcpp_edit_term_columns' );
 	add_action( 'companies_add_form_fields', 'gma_wpjmcpp_add_form_field_term_meta_text' );
 	add_action( 'companies_edit_form_fields', 'gma_wpjmcpp_edit_form_field_term_meta_text' );
+	//add_action( 'companies_edit_form_fields', 'gma_wpjmcpp_save_term_meta_text' );
+	
 	//add_action( 'companies_edit_form_fields', '___edit_form_field_term_meta_text' );
 	//add_action( 'create_category', '___save_term_meta_text' );
-	//add_action( 'edit_category',   '___save_term_meta_text' );
+	
+	add_action( 'edit_companies',   'gma_wpjmcpp_get_term_meta_text' );
+	add_action( 'edit_companies',   'gma_wpjmcpp_save_term_meta_text' );
 }
 
 // ## Template loader to edit archives
@@ -111,7 +115,7 @@ function gma_wpjmcpp_job_taxonomy_init(){
 */
 function gma_wpjmcpp_edit_term_columns( $columns ) {
 
-    $columns['__term_meta_text'] = __( 'Term Meta Text', 'text_domain' );
+    $columns['__term_meta_text'] = __( 'Term Meta Text', 'wpjm-company-profile-page' );
 
     return $columns;
 }
@@ -128,7 +132,7 @@ function gma_wpjmcpp_add_form_field_term_meta_text() {
 
     <div class="form-field term-meta-text-wrap">
         <label for="term-meta-text">
-        	<?php _e( 'Term Meta Text', 'text_domain' ); ?>
+        	<?php _e( 'Term Meta Text', 'wpjm-company-profile-page' ); ?>
 		</label>
         <input type="text" name="term_meta_text" id="term-meta-text" value="" class="term-meta-text-field" />
     </div>
@@ -139,26 +143,78 @@ function gma_wpjmcpp_add_form_field_term_meta_text() {
 /* 
 * Taxonomy metadata : Adds new field to the Companies edit term page.
 */
-function gma_wpjmcpp_edit_form_field_term_meta_text(){
+function gma_wpjmcpp_edit_form_field_term_meta_text( $term ){
 
+
+	$value = gma_wpjmcpp_get_term_meta_text( $term->term_id );
+	//$value = get_term_meta( $term_id, '__term_meta_text', true );
 	?>
 
     <tr class="form-field term-meta-text-wrap">
         
         <th scope="row">
         	<label for="term-meta-text">
-        		<?php _e( 'Term Meta Text', 'text_domain' ); ?>
+        		<?php _e( 'Term Meta Text', 'wpjm-company-profile-page' ); ?>
         	</label>
         </th>
         
         <td>
-            <input type="text" name="term_meta_text" id="term-meta-text" value="" class="term-meta-text-field"  />
+            <input type="text" name="term_meta_text" id="term-meta-text" value="<?php echo $value ?>" class="term-meta-text-field"  />
         </td>
     </tr>
 
 	<?php 
 }
 
+/*
+* Taxonomy metadata: Gets the term metadata
+*/
+function gma_wpjmcpp_get_term_meta_text( $term_id ) {
+  
+  $value = get_term_meta( $term_id, '__term_meta_text', true );
+  //$value = "DEBUG: metadata is here!";
+  return $value;
+}
+
+/* 
+* Taxonomy metadata : Save term metadata
+*/
+function gma_wpjmcpp_save_term_meta_text( $term_id ){
+
+	// old_value vs new_value, compare and update.
+	// update_term_meta() ?
+	//$term_meta = get_term_meta( $term_id );
+	//var_dump($term_meta);
+	//$old_value  = gma_wpjmcpp_get_term_meta_text( $term_id );
+	//$new_value = isset( $_POST['__term_meta_text'] );
+	//update_term_meta( $term_id, '__term_meta_text', $old_value );
+
+	//update_term_meta( $term_id, '__term_meta_text', $new_value );
+	//var_dump($old_value);
+	//$terms = get_terms( 'companies' );
+	//var_dump($terms);
+	$old_value  = gma_wpjmcpp_get_term_meta_text( $term_id );
+    //$new_value = "DEBUG: New value!";
+
+    if (isset( $_POST['term_meta_text'] )) {
+    	$new_value = $_POST['term_meta_text'];
+    }
+
+	update_term_meta( $term_id, '__term_meta_text', $new_value );
+	//print_r($old_value . '<br>'); // DEBUG: metadata is here
+	//print_r($new_value . '<br>'); // DEBUG: New value!
+	//print_r($term_id . '<br>'); // 35
+	//die();
+
+	// ## metadata seems good, but is not output visually.
+
+    // if ( $old_value && '' === $new_value )
+    //     delete_term_meta( $term_id, '__term_meta_text' );
+
+    // else if ( $old_value !== $new_value )
+    //     update_term_meta( $term_id, '__term_meta_text', $new_value );
+
+}
 
 
 function gma_wpjmcpp_display_job_meta_data() {
