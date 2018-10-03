@@ -39,8 +39,9 @@ if ( !class_exists( 'WP_Job_Manager' ) ) {
 	//add_action( 'companies_edit_form_fields', '___edit_form_field_term_meta_text' );
 	//add_action( 'create_category', '___save_term_meta_text' );
 	
-	add_action( 'edit_companies',   'gma_wpjmcpp_get_term_meta_text' );
+	//add_action( 'edit_companies',   'gma_wpjmcpp_get_term_meta_text' );
 	add_action( 'edit_companies',   'gma_wpjmcpp_save_term_meta_text' );
+	add_action( 'create_companies',   'gma_wpjmcpp_save_term_meta_text' );
 }
 
 // ## Template loader to edit archives
