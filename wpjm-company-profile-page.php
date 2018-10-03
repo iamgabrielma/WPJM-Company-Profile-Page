@@ -28,7 +28,15 @@ if ( !class_exists( 'WP_Job_Manager' ) ) {
 
 	/**/
 	// https://developer.wordpress.org/reference/hooks/create_taxonomy/
-
+	/*
+	* Meta for the custom "Company" taxonomy
+	*/
+	add_filter( 'manage_edit-companies_columns', 'gma_wpjmcpp_edit_term_columns' );
+	add_action( 'companies_add_form_fields', 'gma_wpjmcpp_add_form_field_term_meta_text' );
+	add_action( 'companies_edit_form_fields', 'gma_wpjmcpp_edit_form_field_term_meta_text' );
+	//add_action( 'companies_edit_form_fields', '___edit_form_field_term_meta_text' );
+	//add_action( 'create_category', '___save_term_meta_text' );
+	//add_action( 'edit_category',   '___save_term_meta_text' );
 }
 
 // ## Template loader to edit archives
@@ -90,24 +98,67 @@ function gma_wpjmcpp_job_taxonomy_init(){
 /*
 * Creating new taxonomy data. Testing from here: https://wordpress.stackexchange.com/questions/211703/need-a-simple-but-complete-example-of-adding-metabox-to-taxonomy
 */
-// EDIT COLUMNS
-add_filter( 'manage_edit-companies_columns', '___edit_term_columns' );
-function ___edit_term_columns( $columns ) {
 
-    $columns['__term_meta_text'] = __( 'TERM META TEXT', 'text_domain' );
+// Getter
+// function ___get_term_meta_text( $term_id ) {
+//   $value = get_term_meta( $term_id, '__term_meta_text', true );
+//   //$value = ___sanitize_term_meta_text( $value );
+//   return $value;
+// }
+
+/* 
+* Taxonomy metadata : Adds a new column to the Companies term page.
+*/
+function gma_wpjmcpp_edit_term_columns( $columns ) {
+
+    $columns['__term_meta_text'] = __( 'Term Meta Text', 'text_domain' );
 
     return $columns;
 }
 
-// ADD FIELD TO CATEGORY TERM PAGE
-add_action( 'companies_add_form_fields', '___add_form_field_term_meta_text' );
-function ___add_form_field_term_meta_text() { ?>
-    <?php wp_nonce_field( basename( __FILE__ ), 'term_meta_text_nonce' ); ?>
+/* 
+* Taxonomy metadata : Adds new field to the Companies term page.
+*/
+function gma_wpjmcpp_add_form_field_term_meta_text() { 
+
+	// used to validate that the contents of the form request came from the current site
+    //wp_nonce_field( basename( __FILE__ ), 'term_meta_text_nonce' );
+    
+    ?>
+
     <div class="form-field term-meta-text-wrap">
-        <label for="term-meta-text"><?php _e( 'TERM META TEXT', 'text_domain' ); ?></label>
+        <label for="term-meta-text">
+        	<?php _e( 'Term Meta Text', 'text_domain' ); ?>
+		</label>
         <input type="text" name="term_meta_text" id="term-meta-text" value="" class="term-meta-text-field" />
     </div>
-<?php }
+
+	<?php 
+}
+
+/* 
+* Taxonomy metadata : Adds new field to the Companies edit term page.
+*/
+function gma_wpjmcpp_edit_form_field_term_meta_text(){
+
+	?>
+
+    <tr class="form-field term-meta-text-wrap">
+        
+        <th scope="row">
+        	<label for="term-meta-text">
+        		<?php _e( 'Term Meta Text', 'text_domain' ); ?>
+        	</label>
+        </th>
+        
+        <td>
+            <input type="text" name="term_meta_text" id="term-meta-text" value="" class="term-meta-text-field"  />
+        </td>
+    </tr>
+
+	<?php 
+}
+
 
 
 function gma_wpjmcpp_display_job_meta_data() {
