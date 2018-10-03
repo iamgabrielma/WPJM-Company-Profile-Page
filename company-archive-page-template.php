@@ -23,6 +23,7 @@ get_header(); ?>
 				//$post_type = get_post_type();
 				$post_type = wp_get_post_terms($post->ID, 'companies');
 				$post_type_slug = $post_type[0]->slug;
+				$post_type_description = $post_type[0]->description;
 				//$post_type_data = get_post_type_object( $post_type );
 				//$post_type_slug = $post_type_data->rewrite['slug'];
 				//var_dump($post_type);
@@ -31,11 +32,14 @@ get_header(); ?>
 				//var_dump($post_type_slug);
 
 		?>
-
-		<h1 class="entry-title"><?php /*the_title();*/ ?></h1>
+		<?php 
+		// http://localhost:8888/local/wp-content/plugins/wp-job-manager/assets/images/company.png
+		//the_company_logo(); 
+		//the_company_tagline();
+		?>
+		<h1 class="entry-title">About <strong><?php echo $post_type_slug ?></strong></h1>
+		<?php echo $post_type_description; ?>
 		<h1 class="entry-title">Jobs by <strong><?php echo $post_type_slug ?></strong> </h1>
-		
-		<?php /*get_search_form();*/ ?>
 		
 
 		<ul>
@@ -244,6 +248,26 @@ get_header(); ?>
 			?>
 
 		</ul>
+
+		<h1 class="entry-title">Contact info </h1>
+
+		<?php
+		$terms = get_terms( array(
+		    'taxonomy' => 'companies',
+		    'terms' => $post_type_slug,
+		) );
+		$new_terms = wp_get_object_terms( $post_type_slug, "");
+
+		//$new_new_terms = get_metadata( $post_type_slug, "__term_meta_text" );
+
+		print_r($terms);
+		print_r($new_terms);
+		//print_r($new_new_terms);
+		
+		?>
+
+		<p>Website: </p>
+		<p>Twitter: </p>
 
 	</div><!-- #content -->
 </div><!-- #container -->

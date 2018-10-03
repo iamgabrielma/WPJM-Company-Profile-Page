@@ -25,6 +25,23 @@ if ( !class_exists( 'WP_Job_Manager' ) ) {
 	add_action( 'single_job_listing_meta_end', 'gma_wpjmcpp_display_job_meta_data' );
 	add_action( 'init', 'gma_wpjmcpp_job_taxonomy_init');
 	add_action( 'template_include', 'gma_wpjmccp_companies_archive_page_template' );
+
+	/**/
+	// https://developer.wordpress.org/reference/hooks/create_taxonomy/
+	/*
+	* Meta for the custom "Company" taxonomy
+	*/
+	add_filter( 'manage_edit-companies_columns', 'gma_wpjmcpp_edit_term_columns' );
+	add_action( 'companies_add_form_fields', 'gma_wpjmcpp_add_form_field_term_meta_text' );
+	add_action( 'companies_edit_form_fields', 'gma_wpjmcpp_edit_form_field_term_meta_text' );
+	//add_action( 'companies_edit_form_fields', 'gma_wpjmcpp_save_term_meta_text' );
+	
+	//add_action( 'companies_edit_form_fields', '___edit_form_field_term_meta_text' );
+	//add_action( 'create_category', '___save_term_meta_text' );
+	
+	//add_action( 'edit_companies',   'gma_wpjmcpp_get_term_meta_text' );
+	add_action( 'edit_companies',   'gma_wpjmcpp_save_term_meta_text' );
+	add_action( 'create_companies',   'gma_wpjmcpp_save_term_meta_text' );
 }
 
 // ## Template loader to edit archives
@@ -83,6 +100,124 @@ function gma_wpjmcpp_job_taxonomy_init(){
 	);
 }
 
+/*
+* Creating new taxonomy data. Testing from here: https://wordpress.stackexchange.com/questions/211703/need-a-simple-but-complete-example-of-adding-metabox-to-taxonomy
+*/
+
+// Getter
+// function ___get_term_meta_text( $term_id ) {
+//   $value = get_term_meta( $term_id, '__term_meta_text', true );
+//   //$value = ___sanitize_term_meta_text( $value );
+//   return $value;
+// }
+
+/* 
+* Taxonomy metadata : Adds a new column to the Companies term page.
+*/
+function gma_wpjmcpp_edit_term_columns( $columns ) {
+
+    $columns['__term_meta_text'] = __( 'Term Meta Text', 'wpjm-company-profile-page' );
+
+    return $columns;
+}
+
+/* 
+* Taxonomy metadata : Adds new field to the Companies term page.
+*/
+function gma_wpjmcpp_add_form_field_term_meta_text() { 
+
+	// used to validate that the contents of the form request came from the current site
+    //wp_nonce_field( basename( __FILE__ ), 'term_meta_text_nonce' );
+    
+    ?>
+
+    <div class="form-field term-meta-text-wrap">
+        <label for="term-meta-text">
+        	<?php _e( 'Term Meta Text', 'wpjm-company-profile-page' ); ?>
+		</label>
+        <input type="text" name="term_meta_text" id="term-meta-text" value="" class="term-meta-text-field" />
+    </div>
+
+	<?php 
+}
+
+/* 
+* Taxonomy metadata : Adds new field to the Companies edit term page.
+*/
+function gma_wpjmcpp_edit_form_field_term_meta_text( $term ){
+
+
+	$value = gma_wpjmcpp_get_term_meta_text( $term->term_id );
+	//$value = get_term_meta( $term_id, '__term_meta_text', true );
+	?>
+
+    <tr class="form-field term-meta-text-wrap">
+        
+        <th scope="row">
+        	<label for="term-meta-text">
+        		<?php _e( 'Term Meta Text', 'wpjm-company-profile-page' ); ?>
+        	</label>
+        </th>
+        
+        <td>
+            <input type="text" name="term_meta_text" id="term-meta-text" value="<?php echo $value ?>" class="term-meta-text-field"  />
+        </td>
+    </tr>
+
+	<?php 
+}
+
+/*
+* Taxonomy metadata: Gets the term metadata
+*/
+function gma_wpjmcpp_get_term_meta_text( $term_id ) {
+  
+  $value = get_term_meta( $term_id, '__term_meta_text', true );
+  //$value = "DEBUG: metadata is here!";
+  return $value;
+}
+
+/* 
+* Taxonomy metadata : Save term metadata
+*/
+function gma_wpjmcpp_save_term_meta_text( $term_id ){
+
+
+	$old_value  = gma_wpjmcpp_get_term_meta_text( $term_id );
+
+    if (isset( $_POST['term_meta_text'] )) {
+    	$new_value = $_POST['term_meta_text'];
+    }
+
+	update_term_meta( $term_id, '__term_meta_text', $new_value );
+
+}
+
+/* 
+* Taxonomy metadata : Display metadata in Columns
+*/
+add_filter( 'manage_companies_custom_column', 'gma_wpjmcpp_manage_term_custom_column', 10, 3 );
+
+function gma_wpjmcpp_manage_term_custom_column( $out, $column, $term_id ) {
+
+    if ( '__term_meta_text' === $column ) {
+
+        $value  = gma_wpjmcpp_get_term_meta_text( $term_id );
+
+        if ( ! $value )
+            $value = '';
+
+        $out = sprintf( '<span class="term-meta-text-block" style="" >%s</div>', esc_attr( $value ) );
+    }
+
+    return $out;
+}
+
+
+/* 
+* Taxonomy metadata : Saves metadata on taxonomy creation
+*/
+
 
 function gma_wpjmcpp_display_job_meta_data() {
   
@@ -100,7 +235,7 @@ function gma_wpjmcpp_display_job_meta_data() {
   $url = 'http://localhost:8888/local/company/' . $single_company_slug;
   //##TODO: escape and html secure input for $url and $data
   //##TODO: internationalize profile string
-  $company_name = "<a href='" . $url . "'>" . $data . " profile</a>";
+  $company_name = "<li><a href='" . $url . "'>" . $data . " profile</a></li>";
   //var_dump($data);
   echo $company_name;
 
