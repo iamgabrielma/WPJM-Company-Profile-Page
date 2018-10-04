@@ -1,0 +1,11 @@
+/* Back-end */
+#link-companies {
+	display: none;
+}
+#new-tag-companies-desc{
+	visibility: hidden;
+}
+#new-tag-companies-desc:before {
+   content: "Add the unique company slug";
+   visibility: visible;
+}

@@ -39,7 +39,8 @@ get_header(); ?>
 		?>
 		<header class="gma_wpjmccp_single_job_listing_header">
 		<h1 class="entry-title">About <strong><?php echo $post_type_slug ?></strong></h1>
-		<?php echo $post_type_description; ?>
+		
+		<p class="gma_wpjmccp_single_job_listing_description"><?php echo $post_type_description; ?></p>
 		
 		<h1 class="entry-title">Jobs by <strong><?php echo $post_type_slug ?></strong> </h1>
 		</header>
@@ -79,7 +80,7 @@ get_header(); ?>
                 <div class="gma_wpjmccp_single_job_listing">
                 	
                 	
-                		<?php echo  $job_title  ?>
+                		<span><strong><?php echo  $job_title  ?></strong></span>
 					
 					<a class="gma_wpjmccp_single_job_listing_ahref" href="<?php echo $job_url ?>">
                 			<input class="application_button button" value="Apply for job" type="button" >
@@ -105,8 +106,8 @@ get_header(); ?>
 
 		//$new_new_terms = get_metadata( $post_type_slug, "__term_meta_text" );
 
-		print_r($terms);
-		print_r($new_terms);
+		//print_r($terms);
+		//print_r($new_terms);
 		//print_r($new_new_terms);
 		
 		?>

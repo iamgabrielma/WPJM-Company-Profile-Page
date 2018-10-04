@@ -45,11 +45,17 @@ if ( !class_exists( 'WP_Job_Manager' ) ) {
 
 	// Scripts
 	add_action( 'wp_enqueue_scripts', 'add_gma_wpjmccp_scripts' );
+	add_action( 'admin_enqueue_scripts', 'add_gma_wpjmccp_admin_scripts' );
 }
 
 function add_gma_wpjmccp_scripts(){
 	
 	wp_enqueue_style( 'gma_wpjmccp_style', plugins_url() . '/wpjm-company-profile-page/style.css',false,'1.1','all');
+}
+
+function add_gma_wpjmccp_admin_scripts(){
+	
+	wp_enqueue_style( 'gma_wpjmccp_admin_style', plugins_url() . '/wpjm-company-profile-page/admin_style.css',false,'1.1','all');
 }
 
 // ## Template loader to edit archives
@@ -84,6 +90,7 @@ function gma_wpjmcpp_job_taxonomy_init(){
 		'job_listing',
 		array(
 			'label' => __( 'Companies' ),
+			'description' => 'testestdescription',
 			'rewrite' => array( 'slug' => 'company')
 		)
 	);
