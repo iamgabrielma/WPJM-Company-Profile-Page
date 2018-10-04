@@ -10,19 +10,18 @@ get_header(); ?>
 		<?php the_post(); ?>
 
 		<?php
-				// I need to get all the taxonomies to filter them down later on
-				$my_individual_companies = get_terms( array( 'taxonomy' => 'companies') );
-				//print_r($my_individual_companies);
+				
+				//$my_individual_companies = get_terms( array( 'taxonomy' => 'companies') );
 
-				// :)
-				$my_individual_company_slug = $my_individual_companies[0]->slug;
-				//echo $my_individual_companies[0]->slug;
+				//$my_individual_company_slug = $my_individual_companies[0]->slug;
 
-				// ### Get the taxonomy rewrite slug instead to compare and echo output
-				//echo '<br>';
-				//$post_type = get_post_type();
+				//var_dump($my_individual_companies[0]->name);
+				
+
 				$post_type = wp_get_post_terms($post->ID, 'companies');
 				$post_type_slug = $post_type[0]->slug;
+				$post_type_name = $post_type[0]->name;
+				$post_type_term_taxonomy_id = $post_type[0]->term_taxonomy_id;
 				$post_type_description = $post_type[0]->description;
 				//$post_type_data = get_post_type_object( $post_type );
 				//$post_type_slug = $post_type_data->rewrite['slug'];
@@ -32,126 +31,17 @@ get_header(); ?>
 				//var_dump($post_type_slug);
 
 		?>
-		<?php 
-		// http://localhost:8888/local/wp-content/plugins/wp-job-manager/assets/images/company.png
-		//the_company_logo(); 
-		//the_company_tagline();
-		?>
-		<h1 class="entry-title">About <strong><?php echo $post_type_slug ?></strong></h1>
-		<?php echo $post_type_description; ?>
-		<h1 class="entry-title">Jobs by <strong><?php echo $post_type_slug ?></strong> </h1>
+
+		<header class="gma_wpjmccp_single_job_listing_header">
+		<h1 class="entry-title">About <strong><?php echo $post_type_name ?></strong></h1>
 		
+		<p class="gma_wpjmccp_single_job_listing_description"><?php echo $post_type_description; ?></p>
+		
+		<h1 class="entry-title">Jobs by <strong><?php echo $post_type_name ?></strong> </h1>
+		</header>
 
 		<ul>
 			<?php
-
-				// $args = array(
-				// 	'post_type' 	=> 'job_listing',
-				// 	'taxonomy' 		=> 'companies'
-				// 	// 'tax_query' => array(
-				// 	// 	array(
-				// 	// 		'taxonomy' => 'companies'
-				// 	// 	)
-				// 	// )
-				// );
-
-				// $posts_array = get_posts( $args );
-				//var_dump($posts_array);
-				//print_r( $args );
-
-				// // I need to get all the taxonomies to filter them down later on
-				// $my_individual_companies = get_terms( array( 'taxonomy' => 'companies') );
-				// print_r($my_individual_companies);
-
-				// // :)
-				// echo $my_individual_companies[0]->slug;
-				//var_dump($posts_array);
-
-				// foreach ($posts_array as $job => $data) {
-
-				// 	// URL == taxonomy, display, otherwise dont
-				// 	// if ($post_type_slug ) {
-				// 	// 	# code...
-				// 	// }
-					 
-				// 	 echo '<br>';
-				// 	 echo '----------------';
-				// 	 //echo $job['post_title'];
-				// 	 $job_title = $data->post_title;
-				// 	 $job_url = $data->guid;
-				// 	 echo '<br>';
-				// 	 print_r($job_title);
-
-				// 	 echo "<a href='" . $job_url . "'> | Apply </a>";
-				// }
-
-				// ## WP Query + taxonomies:
-				
-				
-				// $args=array(
-				// 	'post_type' => 'job_listing',
-				//     'posts_per_page' => -1, 
-				//     'tag' => $post_type_slug
-				// );
-
-				// $the_query = new WP_Query( $args );
-
-				// //var_dump($the_query);
-				
-				// echo '<br>';
-				// echo '----------------';
-
-				// :)
-				//var_dump($the_query->query['tag']);
-
-				// if ($the_query->query['tag'] == $post_type_slug) {
-				// 	echo 'yes! Only ' . $post_type_slug . " jobs" ;
-
-
-				// 	$args = array(
-				// 		'post_type' 	=> 'job_listing',
-				// 		//'taxonomy' 		=> 'companies'
-				// 		//'tag'			=> $post_type_slug
-				// 		'tax_query'		=> array(
-				// 								'taxonomy' => 'companies',
-				// 								'field' => 'slug',
-				// 								'terms' => $post_type_slug
-				// 							)
-				// 	);
-
-				// 	$posts_array = get_posts( $args );
-					
-				// 	foreach ($posts_array as $job => $data) {
- 
-				// 		 echo '<br>';
-				// 		 echo '----------------';
-				// 		 $job_title = $data->post_title;
-				// 		 $job_url = $data->guid;
-				// 		 echo '<br>';
-				// 		 print_r($job_title);
-				// 		 echo "<a href='" . $job_url . "'> | Apply </a>";
-				// 	}
-
-
-				// } else {
-				// 	echo "no";
-				// }
-
-				// echo '<br>';
-				// echo 'new_query';
-				// echo '----------------';
-
-				// $args=array(
-				// 	'companies' => $post_type_slug
-				// );
-
-				// $new_query = new WP_Query( $args );
-				// var_dump($new_query);
-				
-				// echo '<br>';
-				// echo 'get_terms';
-				// echo '----------------';
-				// echo '<br>';
 
 				/*
 				* Working output.
@@ -169,6 +59,8 @@ get_header(); ?>
                 		)		
 		            )
             	);
+				
+
 				echo '<ul>';
 
 				//print_r($myposts);
@@ -176,98 +68,44 @@ get_header(); ?>
 
             		$job_title = $mypost->post_title;
             		$job_url = $mypost->guid;
+            		//## TODO Rewrite using base URL + $mypost->post_name
 
-            		?>
+            	?>
+                <!-- ## FRONT-END DISPLAY ## -->
                 
-                <li>
+                <div class="gma_wpjmccp_single_job_listing">
                 	
-                	<p><?php echo  $job_title . "| <a href='" . $job_url . "'> Apply </a>"; ?></p>
+                	
+                		<span><strong><?php echo  $job_title  ?></strong></span>
+					
+					<a class="gma_wpjmccp_single_job_listing_ahref" href="<?php echo $job_url ?>">
+                			<input class="application_button button" value="Apply for job" type="button" >
+                		</a>
+				</div>
+				<!--// ## FRONT-END DISPLAY ## -->
             	<?php 
+            	
+
+            	//$term = get_term_by('slug', 'google', 'companies');
+            	//var_dump($term);
+
+
             	}
             	echo '</ul>';
-				
-				//$my_individual_companies = get_terms( array( 'taxonomy' => 'companies') );
-				//var_dump($my_individual_companies);
-
-				//!! Infintite loop
-				// while ( $new_query->have_posts() ) :
-
-    //             echo '<p>'. the_title() .'</p>';
-
-    //             endwhile;
-
-				// foreach ($the_query as $key => $value) {
-					
-					
-				// }
-
-				//var_dump($the_query);
-
-				//$new_posts_array = get_posts( $args );
-				//var_dump($new_posts_array);
-
-				// while ( $the_query->have_posts() ) : $the_query->the_post();
-    // 				the_content(__('Continue Reading'));             
-				// endwhile;
-
-
-				// tag_slug__in
-				// tag
-
-				// if ( $the_query->have_posts() ) {
-				//     echo '<ul>';
-				//     while ( $the_query->have_posts() ) {
-				//         $the_query->the_post();
-				//         echo '<li>' . get_the_title() . '</li>';
-				//     }
-				//     echo '</ul>';
-				// } else {
-				//     echo 'No jobs found';
-				// }
-
-				// wp_reset_postdata();
-
-				// $post_tag = get_the_tags ( $post->ID );
-				// var_dump($post_tag);
-
-				// if ( $post_tag ) {
-				// 	foreach ($post_tag as $tag) {
-				// 		$ids[] = $tag->term_id;
-				// 		echo '0';
-				// 	}
-				// }
-
-				// $args = array(
-				//     'post_type' => 'job_listing',
-				//     'tag__in'   => $ids,
-				// );
-
-				// $related_posts = new WP_Query( $args );
-				// var_dump($related_posts);
-
 			?>
 
 		</ul>
 
-		<h1 class="entry-title">Contact info </h1>
+		<h1 class="entry-title">Other Taxonomy Metadata</h1>
 
 		<?php
-		$terms = get_terms( array(
-		    'taxonomy' => 'companies',
-		    'terms' => $post_type_slug,
-		) );
-		$new_terms = wp_get_object_terms( $post_type_slug, "");
-
-		//$new_new_terms = get_metadata( $post_type_slug, "__term_meta_text" );
-
-		print_r($terms);
-		print_r($new_terms);
-		//print_r($new_new_terms);
 		
-		?>
+			$foometa = get_term_meta( $post_type_term_taxonomy_id ); 
+			$echoedfoometa = $foometa["__term_meta_text"][0];
+			//echo $echoedfoometa;
+        ?>
+		<span><strong>Company Website:</strong> <?php echo  $echoedfoometa  ?></span>
 
-		<p>Website: </p>
-		<p>Twitter: </p>
 
 	</div><!-- #content -->
 </div><!-- #container -->

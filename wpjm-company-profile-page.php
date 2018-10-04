@@ -42,6 +42,20 @@ if ( !class_exists( 'WP_Job_Manager' ) ) {
 	//add_action( 'edit_companies',   'gma_wpjmcpp_get_term_meta_text' );
 	add_action( 'edit_companies',   'gma_wpjmcpp_save_term_meta_text' );
 	add_action( 'create_companies',   'gma_wpjmcpp_save_term_meta_text' );
+
+	// Scripts
+	add_action( 'wp_enqueue_scripts', 'add_gma_wpjmccp_scripts' );
+	add_action( 'admin_enqueue_scripts', 'add_gma_wpjmccp_admin_scripts' );
+}
+
+function add_gma_wpjmccp_scripts(){
+	
+	wp_enqueue_style( 'gma_wpjmccp_style', plugins_url() . '/wpjm-company-profile-page/style.css',false,'1.1','all');
+}
+
+function add_gma_wpjmccp_admin_scripts(){
+	
+	wp_enqueue_style( 'gma_wpjmccp_admin_style', plugins_url() . '/wpjm-company-profile-page/admin_style.css',false,'1.1','all');
 }
 
 // ## Template loader to edit archives
@@ -56,26 +70,7 @@ function gma_wpjmccp_companies_archive_page_template( $template ){
 
 
 	if ( is_tax('companies') ) {
-		//get_template_part($company_template_url);
-		// possibly the function exists already within wpj? https://github.com/Automattic/WP-Job-Manager/blob/914f790050a7069a2bf7db9d5b91480d6bd256be/wp-job-manager-template.php
 
-
-		//$plugin_directory = dirname(__FILE__);
-		//$new_template = locate_template( array( 'company-archive-page-template.php' ) );
-		//error_log( print_r(dirname(__FILE__) . '/wpjm-company-profile-page/company-archive-page-template.php'));
-		//error_log( var_dump($new_template));
-		//var_dump($template); // "/Applications/MAMP/htdocs/local/wp-content/themes/storefront/archive.php"
-		//var_dump($plugin_directory); // "/Applications/MAMP/htdocs/local/wp-content/plugins/wpjm-company-profile-page"
-		//var_dump($plugins_url);
-		//var_dump($company_template_url);
-		//var_dump($plugin_dir_path);
-
-		/*
-		* Changes the default archive.php template for company-archive-page-template.php
-		*/
-		 // $new_template = '/Applications/MAMP/htdocs/local/wp-content/plugins/wpjm-company-profile-page/company-archive-page-template.php';
-		//$template = $company_template_url;
-		//$template = '/Applications/MAMP/htdocs/local/wp-content/plugins/wpjm-company-profile-page/company-archive-page-template.php';
 		$template = $company_template_url;
 		
 		return $template;
@@ -91,11 +86,12 @@ function gma_wpjmcpp_job_taxonomy_init(){
 
 	register_taxonomy(
 		'companies',
-		//'page',
 		'job_listing',
 		array(
 			'label' => __( 'Companies' ),
-			'rewrite' => array( 'slug' => 'company')
+			'description' => 'testestdescription',
+			'rewrite' => array( 'slug' => 'company'),
+			'public' => true
 		)
 	);
 }
@@ -116,7 +112,7 @@ function gma_wpjmcpp_job_taxonomy_init(){
 */
 function gma_wpjmcpp_edit_term_columns( $columns ) {
 
-    $columns['__term_meta_text'] = __( 'Term Meta Text', 'wpjm-company-profile-page' );
+    $columns['__term_meta_text'] = __( 'Company website', 'wpjm-company-profile-page' );
 
     return $columns;
 }
@@ -133,7 +129,7 @@ function gma_wpjmcpp_add_form_field_term_meta_text() {
 
     <div class="form-field term-meta-text-wrap">
         <label for="term-meta-text">
-        	<?php _e( 'Term Meta Text', 'wpjm-company-profile-page' ); ?>
+        	<?php _e( 'Company website', 'wpjm-company-profile-page' ); ?>
 		</label>
         <input type="text" name="term_meta_text" id="term-meta-text" value="" class="term-meta-text-field" />
     </div>
@@ -155,7 +151,7 @@ function gma_wpjmcpp_edit_form_field_term_meta_text( $term ){
         
         <th scope="row">
         	<label for="term-meta-text">
-        		<?php _e( 'Term Meta Text', 'wpjm-company-profile-page' ); ?>
+        		<?php _e( 'Company website', 'wpjm-company-profile-page' ); ?>
         	</label>
         </th>
         
@@ -217,7 +213,11 @@ function gma_wpjmcpp_manage_term_custom_column( $out, $column, $term_id ) {
 /* 
 * Taxonomy metadata : Saves metadata on taxonomy creation
 */
-
+// function get_taxonomy_archive_link( $taxonomy ) {
+//   $tax = get_taxonomy( $taxonomy ) ;
+//   $test = get_bloginfo( 'url' ) . '/' . $tax->rewrite['slug'];
+//   var_dump($test);
+// }
 
 function gma_wpjmcpp_display_job_meta_data() {
   
@@ -229,13 +229,22 @@ function gma_wpjmcpp_display_job_meta_data() {
 
   $the_new_company_taxonomy = wp_get_post_terms($post->ID, 'companies');
   //print_r($the_new_company_taxonomy[0]->slug);
+  //print_r($the_new_company_taxonomy);
   $single_company_slug = $the_new_company_taxonomy[0]->slug;
 
   //$url = "https://google.com";
-  $url = 'http://localhost:8888/local/company/' . $single_company_slug;
+  $url = site_url() . '/company/' . $single_company_slug;
   //##TODO: escape and html secure input for $url and $data
   //##TODO: internationalize profile string
-  $company_name = "<li><a href='" . $url . "'>" . $data . " profile</a></li>";
+  //$taxonomy_base_url = get_terms('job_listing');
+  //var_dump($taxonomy_base_url);
+  //get_taxonomy_archive_link('_company_name');
+  if (!empty($data)) {
+  	$company_name = "<li><a href='" . $url . "'>" . $data . " profile</a></li>";	
+  } else {
+  	$company_name = "<li><a href='" . $url . "'>" . $data . "Company profile</a></li>";	
+  }
+  
   //var_dump($data);
   echo $company_name;
 
