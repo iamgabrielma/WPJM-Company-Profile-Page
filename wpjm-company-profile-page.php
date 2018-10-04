@@ -86,12 +86,12 @@ function gma_wpjmcpp_job_taxonomy_init(){
 
 	register_taxonomy(
 		'companies',
-		//'page',
 		'job_listing',
 		array(
 			'label' => __( 'Companies' ),
 			'description' => 'testestdescription',
-			'rewrite' => array( 'slug' => 'company')
+			'rewrite' => array( 'slug' => 'company'),
+			'public' => true
 		)
 	);
 }
@@ -112,7 +112,7 @@ function gma_wpjmcpp_job_taxonomy_init(){
 */
 function gma_wpjmcpp_edit_term_columns( $columns ) {
 
-    $columns['__term_meta_text'] = __( 'Term Meta Text', 'wpjm-company-profile-page' );
+    $columns['__term_meta_text'] = __( 'Company website', 'wpjm-company-profile-page' );
 
     return $columns;
 }
@@ -129,7 +129,7 @@ function gma_wpjmcpp_add_form_field_term_meta_text() {
 
     <div class="form-field term-meta-text-wrap">
         <label for="term-meta-text">
-        	<?php _e( 'Term Meta Text', 'wpjm-company-profile-page' ); ?>
+        	<?php _e( 'Company website', 'wpjm-company-profile-page' ); ?>
 		</label>
         <input type="text" name="term_meta_text" id="term-meta-text" value="" class="term-meta-text-field" />
     </div>
@@ -151,7 +151,7 @@ function gma_wpjmcpp_edit_form_field_term_meta_text( $term ){
         
         <th scope="row">
         	<label for="term-meta-text">
-        		<?php _e( 'Term Meta Text', 'wpjm-company-profile-page' ); ?>
+        		<?php _e( 'Company website', 'wpjm-company-profile-page' ); ?>
         	</label>
         </th>
         

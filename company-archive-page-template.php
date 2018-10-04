@@ -10,19 +10,18 @@ get_header(); ?>
 		<?php the_post(); ?>
 
 		<?php
-				// I need to get all the taxonomies to filter them down later on
-				$my_individual_companies = get_terms( array( 'taxonomy' => 'companies') );
-				//print_r($my_individual_companies);
+				
+				//$my_individual_companies = get_terms( array( 'taxonomy' => 'companies') );
 
-				// :)
-				$my_individual_company_slug = $my_individual_companies[0]->slug;
-				//echo $my_individual_companies[0]->slug;
+				//$my_individual_company_slug = $my_individual_companies[0]->slug;
 
-				// ### Get the taxonomy rewrite slug instead to compare and echo output
-				//echo '<br>';
-				//$post_type = get_post_type();
+				//var_dump($my_individual_companies[0]->name);
+				
+
 				$post_type = wp_get_post_terms($post->ID, 'companies');
 				$post_type_slug = $post_type[0]->slug;
+				$post_type_name = $post_type[0]->name;
+				$post_type_term_taxonomy_id = $post_type[0]->term_taxonomy_id;
 				$post_type_description = $post_type[0]->description;
 				//$post_type_data = get_post_type_object( $post_type );
 				//$post_type_slug = $post_type_data->rewrite['slug'];
@@ -32,17 +31,13 @@ get_header(); ?>
 				//var_dump($post_type_slug);
 
 		?>
-		<?php 
-		// http://localhost:8888/local/wp-content/plugins/wp-job-manager/assets/images/company.png
-		//the_company_logo(); 
-		//the_company_tagline();
-		?>
+
 		<header class="gma_wpjmccp_single_job_listing_header">
-		<h1 class="entry-title">About <strong><?php echo $post_type_slug ?></strong></h1>
+		<h1 class="entry-title">About <strong><?php echo $post_type_name ?></strong></h1>
 		
 		<p class="gma_wpjmccp_single_job_listing_description"><?php echo $post_type_description; ?></p>
 		
-		<h1 class="entry-title">Jobs by <strong><?php echo $post_type_slug ?></strong> </h1>
+		<h1 class="entry-title">Jobs by <strong><?php echo $post_type_name ?></strong> </h1>
 		</header>
 
 		<ul>
@@ -73,6 +68,7 @@ get_header(); ?>
 
             		$job_title = $mypost->post_title;
             		$job_url = $mypost->guid;
+            		//## TODO Rewrite using base URL + $mypost->post_name
 
             	?>
                 <!-- ## FRONT-END DISPLAY ## -->
@@ -88,32 +84,28 @@ get_header(); ?>
 				</div>
 				<!--// ## FRONT-END DISPLAY ## -->
             	<?php 
+            	
+
+            	//$term = get_term_by('slug', 'google', 'companies');
+            	//var_dump($term);
+
+
             	}
             	echo '</ul>';
-
 			?>
 
 		</ul>
 
-		<h1 class="entry-title">Contact info </h1>
+		<h1 class="entry-title">Other Taxonomy Metadata</h1>
 
 		<?php
-		$terms = get_terms( array(
-		    'taxonomy' => 'companies',
-		    'terms' => $post_type_slug,
-		) );
-		$new_terms = wp_get_object_terms( $post_type_slug, "");
-
-		//$new_new_terms = get_metadata( $post_type_slug, "__term_meta_text" );
-
-		//print_r($terms);
-		//print_r($new_terms);
-		//print_r($new_new_terms);
 		
-		?>
+			$foometa = get_term_meta( $post_type_term_taxonomy_id ); 
+			$echoedfoometa = $foometa["__term_meta_text"][0];
+			//echo $echoedfoometa;
+        ?>
+		<span><strong>Company Website:</strong> <?php echo  $echoedfoometa  ?></span>
 
-		<p>Website: </p>
-		<p>Twitter: </p>
 
 	</div><!-- #content -->
 </div><!-- #container -->
