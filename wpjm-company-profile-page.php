@@ -42,6 +42,14 @@ if ( !class_exists( 'WP_Job_Manager' ) ) {
 	//add_action( 'edit_companies',   'gma_wpjmcpp_get_term_meta_text' );
 	add_action( 'edit_companies',   'gma_wpjmcpp_save_term_meta_text' );
 	add_action( 'create_companies',   'gma_wpjmcpp_save_term_meta_text' );
+
+	// Scripts
+	add_action( 'wp_enqueue_scripts', 'add_gma_wpjmccp_scripts' );
+}
+
+function add_gma_wpjmccp_scripts(){
+	
+	wp_enqueue_style( 'gma_wpjmccp_style', plugins_url() . '/wpjm-company-profile-page/style.css',false,'1.1','all');
 }
 
 // ## Template loader to edit archives
