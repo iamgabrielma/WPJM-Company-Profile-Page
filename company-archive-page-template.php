@@ -37,10 +37,12 @@ get_header(); ?>
 		//the_company_logo(); 
 		//the_company_tagline();
 		?>
+		<header class="gma_wpjmccp_single_job_listing_header">
 		<h1 class="entry-title">About <strong><?php echo $post_type_slug ?></strong></h1>
 		<?php echo $post_type_description; ?>
-		<h1 class="entry-title">Jobs by <strong><?php echo $post_type_slug ?></strong> </h1>
 		
+		<h1 class="entry-title">Jobs by <strong><?php echo $post_type_slug ?></strong> </h1>
+		</header>
 
 		<ul>
 			<?php
@@ -79,8 +81,8 @@ get_header(); ?>
                 	
                 		<?php echo  $job_title  ?>
 					
-					<a href="<?php echo $job_url ?>">
-                			<input class="application_button button" value="Apply for job" type="button">
+					<a class="gma_wpjmccp_single_job_listing_ahref" href="<?php echo $job_url ?>">
+                			<input class="application_button button" value="Apply for job" type="button" >
                 		</a>
 				</div>
 				<!--// ## FRONT-END DISPLAY ## -->
