@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: WPJM Company Profile Page
- * Plugin URI: https://tilcode.blog/ 
+ * Plugin URI: https://tilcode.blog/wpjm-company-profile-page-add-a-company-profile-page/
  * Description: Adds a company profile page to WP Job Manager. In this page you'll be able to see listed all the jobs by the same company, as well as other data like the company description.
  * Author:      Gabriel Maldonado
  * Author URI:  https://tilcode.blog/
