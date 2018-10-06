@@ -1,28 +1,23 @@
 .gma_wpjmccp_single_job_listing {
-
-position: relative;
-border: 1px solid #eee;
-padding: 1em;
-margin: 0 0 0em;
-display: block;
-clear: both;
-min-height: 3em;
-box-shadow: 0 1px 1px rgba(0,0,0,.1);
-padding-bottom: 32px;
+	position: relative;
+	border: 1px solid #eee;
+	padding: 1em;
+	margin: 0 0 0em;
+	display: block;
+	clear: both;
+	min-height: 3em;
+	box-shadow: 0 1px 1px rgba(0,0,0,.1);
+	padding-bottom: 32px;
 
 }
-
 .gma_wpjmccp_single_job_listing_ahref{
 	float: right;
 	overflow: hidden;
-	/*display: inline-block;*/
-	/*display: flex;*/
 	align-items: center;
 }
 .gma_wpjmccp_single_job_listing_header{
 	margin-bottom: 2.617924em;	
 }
-
 #gma_wpjmccp_single_job_listing_website{
 	text-align: center;
 }

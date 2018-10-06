@@ -6,6 +6,6 @@
 	visibility: hidden;
 }
 #new-tag-companies-desc:before {
-   content: "Add the unique company slug";
+   content: "Add the unique company slug here";
    visibility: visible;
 }
