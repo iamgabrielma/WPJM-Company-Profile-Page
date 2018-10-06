@@ -1,6 +1,6 @@
 <?php
 /*
-Template Name: Archives
+Template Name: Company Profile Page
 */
 get_header(); ?>
 
@@ -79,8 +79,10 @@ get_header(); ?>
                 		<span><strong><?php echo  $job_title  ?></strong></span>
 					
 					<a class="gma_wpjmccp_single_job_listing_ahref" href="<?php echo $job_url ?>">
-                			<input class="application_button button" value="Apply for job" type="button" >
-                		</a>
+                		<input class="application_button button" value="Apply for job" type="button" >
+                	</a>
+
+
 				</div>
 				<!--// ## FRONT-END DISPLAY ## -->
             	<?php 
@@ -96,7 +98,7 @@ get_header(); ?>
 
 		</ul>
 
-		<h1 class="entry-title">Other Taxonomy Metadata</h1>
+		<!--<h1 class="entry-title">Other Taxonomy Metadata</h1>-->
 
 		<?php
 		
@@ -104,7 +106,9 @@ get_header(); ?>
 			$echoedfoometa = $foometa["__term_meta_text"][0];
 			//echo $echoedfoometa;
         ?>
+        <div id="gma_wpjmccp_single_job_listing_website">
 		<span><strong>Company Website:</strong> <?php echo  $echoedfoometa  ?></span>
+		</div>
 
 
 	</div><!-- #content -->

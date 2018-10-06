@@ -8,6 +8,7 @@ display: block;
 clear: both;
 min-height: 3em;
 box-shadow: 0 1px 1px rgba(0,0,0,.1);
+padding-bottom: 32px;
 
 }
 
@@ -15,9 +16,13 @@ box-shadow: 0 1px 1px rgba(0,0,0,.1);
 	float: right;
 	overflow: hidden;
 	/*display: inline-block;*/
-	display: flex;
+	/*display: flex;*/
 	align-items: center;
 }
 .gma_wpjmccp_single_job_listing_header{
 	margin-bottom: 2.617924em;	
+}
+
+#gma_wpjmccp_single_job_listing_website{
+	text-align: center;
 }
