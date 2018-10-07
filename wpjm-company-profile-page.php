@@ -194,7 +194,7 @@ function gma_wpjmcpp_manage_term_custom_column( $out, $column, $term_id ) {
 }
 
 /* 
-* Taxonomy metadata : Display "Company Profile" link in single job listings 
+* Taxonomy metadata : Display "Company Profile" link in single job listings
 */
 function gma_wpjmcpp_display_job_meta_data() {
   
@@ -205,10 +205,11 @@ function gma_wpjmcpp_display_job_meta_data() {
   $single_company_slug = $the_new_company_taxonomy[0]->slug;
   $url = site_url() . '/company/' . $single_company_slug;
 
+  // Checks if the company name has been added as a tag to the individual job listing
   if (!empty($data)) {
-  	$company_name = "<li><a href='" . $url . "'>" . $data . " profile</a></li>";	
+  	$company_name = "<li><a href='" . esc_html( $url ) . "'>" . esc_html( $data ) . " profile</a></li>";	
   } else {
-  	$company_name = "<li><a href='" . $url . "'>" . $data . "Company profile</a></li>";	
+  	$company_name = "<li><a href='" . esc_html( $url ) . "'>Company profile</a></li>";	
   }
 
   echo $company_name;
