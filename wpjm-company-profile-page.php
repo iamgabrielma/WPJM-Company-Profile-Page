@@ -52,7 +52,7 @@ if ( !class_exists( 'WP_Job_Manager' ) ) {
 */
 function add_gma_wpjmccp_scripts(){
 	
-	wp_enqueue_style( 'gma_wpjmccp_style', plugins_url() . '/wpjm-company-profile-page/style.css',false,'1.1','all');
+	wp_enqueue_style( 'gma_wpjmccp_style', plugin_dir_url(__FILE__) . 'style.css',false,'1.1','all');
 }
 
 /*
@@ -60,7 +60,7 @@ function add_gma_wpjmccp_scripts(){
 */
 function add_gma_wpjmccp_admin_scripts(){
 	
-	wp_enqueue_style( 'gma_wpjmccp_admin_style', plugins_url() . '/wpjm-company-profile-page/admin_style.css',false,'1.1','all');
+	wp_enqueue_style( 'gma_wpjmccp_admin_style', plugin_dir_url(__FILE__) . 'admin_style.css',false,'1.1','all');
 }
 
 /*
@@ -68,7 +68,6 @@ function add_gma_wpjmccp_admin_scripts(){
 */
 function gma_wpjmccp_companies_archive_page_template( $template ){
 
-	$plugins_url = plugins_url();
 	$plugin_dir_path = plugin_dir_path( __FILE__ );
 	$company_template_url = $plugin_dir_path . 'company-archive-page-template.php';
 	
