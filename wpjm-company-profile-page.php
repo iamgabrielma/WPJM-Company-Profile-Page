@@ -91,7 +91,7 @@ function gma_wpjmcpp_job_taxonomy_init(){
 		'companies',
 		'job_listing',
 		array(
-			'label' => _e( 'Companies', 'wpjm-company-profile-page' ),
+			'label' => __( 'Companies', 'wpjm-company-profile-page' ),
 			'rewrite' => array( 'slug' => 'company'),
 			'public' => true
 		)
