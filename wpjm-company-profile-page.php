@@ -91,8 +91,7 @@ function gma_wpjmcpp_job_taxonomy_init(){
 		'companies',
 		'job_listing',
 		array(
-			'label' => __( 'Companies' ),
-			'description' => 'testestdescription',
+			'label' => _e( 'Companies', 'wpjm-company-profile-page' ),
 			'rewrite' => array( 'slug' => 'company'),
 			'public' => true
 		)
@@ -104,7 +103,7 @@ function gma_wpjmcpp_job_taxonomy_init(){
 */
 function gma_wpjmcpp_edit_term_columns( $columns ) {
 
-    $columns['__term_meta_text'] = __( 'Company website', 'wpjm-company-profile-page' );
+    $columns['__term_meta_text'] = _e( 'Company website', 'wpjm-company-profile-page' );
 
     return $columns;
 }
@@ -167,7 +166,9 @@ function gma_wpjmcpp_save_term_meta_text( $term_id ){
 	$old_value  = gma_wpjmcpp_get_term_meta_text( $term_id );
 
     if (isset( $_POST['term_meta_text'] )) {
-    	$new_value = $_POST['term_meta_text'];
+    	//$new_value = $_POST['term_meta_text'];
+    	//$new_value = sanitize_text_field($_POST['term_meta_text']);
+    	$new_value = esc_url_raw($_POST['term_meta_text']);
     }
 
 	update_term_meta( $term_id, '__term_meta_text', $new_value );
@@ -220,7 +221,7 @@ function gma_wpjmcpp_display_job_meta_data() {
 function gma_wpjmcpp_admin_notice__error(){
 
 	$class = 'notice notice-error';
-	$message = __( 'An error has occurred. WP Job Manager must be installed in order to use WPJM Company Profile Page plugin', 'wpjm-company-profile-page' );
+	$message = _e( 'An error has occurred. WP Job Manager must be installed in order to use WPJM Company Profile Page plugin', 'wpjm-company-profile-page' );
 	/* 
 	* Debug: error_log( print_r( $message , true ) );
 	*/
