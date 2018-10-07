@@ -166,8 +166,7 @@ function gma_wpjmcpp_save_term_meta_text( $term_id ){
 	$old_value  = gma_wpjmcpp_get_term_meta_text( $term_id );
 
     if (isset( $_POST['term_meta_text'] )) {
-    	//$new_value = $_POST['term_meta_text'];
-    	//$new_value = sanitize_text_field($_POST['term_meta_text']);
+    	// sanitize_url() deprecated in favor of: esc_url() is intended for output, while esc_url_raw() is intended for database storage
     	$new_value = esc_url_raw($_POST['term_meta_text']);
     }
 
@@ -207,9 +206,9 @@ function gma_wpjmcpp_display_job_meta_data() {
 
   // Checks if the company name has been added as a tag to the individual job listing
   if (!empty($data)) {
-  	$company_name = "<li><a href='" . esc_html( $url ) . "'>" . esc_html( $data ) . " profile</a></li>";	
+  	$company_name = "<li><a href='" . esc_url( $url ) . "'>" . esc_html( $data ) . " profile</a></li>";	
   } else {
-  	$company_name = "<li><a href='" . esc_html( $url ) . "'>Company profile</a></li>";	
+  	$company_name = "<li><a href='" . esc_url( $url ) . "'>Company profile</a></li>";	
   }
 
   echo $company_name;

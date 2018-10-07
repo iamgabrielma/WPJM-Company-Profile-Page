@@ -26,15 +26,15 @@ get_header(); ?>
 		
 			<h1 class="entry-title">About 
 				<strong>
-					<?php echo esc_attr($post_type_name); ?>
+					<?php echo esc_textarea($post_type_name); ?>
 				</strong>
 			</h1>
 			<p class="gma_wpjmccp_single_job_listing_description">
-				<?php echo esc_attr( $post_type_description); ?>
+				<?php echo esc_textarea( $post_type_description); ?>
 			</p>
 			<h1 class="entry-title">Jobs by 
 				<strong>
-					<?php echo esc_attr($post_type_name); ?>
+					<?php echo esc_textarea($post_type_name); ?>
 				</strong> 
 			</h1>
 		
@@ -73,7 +73,7 @@ get_header(); ?>
             <div class="gma_wpjmccp_single_job_listing">
 				<span>
 					<strong>
-						<?php echo esc_attr($job_title); ?>
+						<?php echo esc_textarea($job_title); ?>
 					</strong>
 				</span>
 				<a class="gma_wpjmccp_single_job_listing_ahref" href="
