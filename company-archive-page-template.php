@@ -24,9 +24,19 @@ get_header(); ?>
 
 		<header class="gma_wpjmccp_single_job_listing_header">
 		
-			<h1 class="entry-title">About <strong><?php echo $post_type_name ?></strong></h1>
-			<p class="gma_wpjmccp_single_job_listing_description"><?php echo $post_type_description; ?></p>
-			<h1 class="entry-title">Jobs by <strong><?php echo $post_type_name ?></strong> </h1>
+			<h1 class="entry-title">About 
+				<strong>
+					<?php echo esc_textarea($post_type_name); ?>
+				</strong>
+			</h1>
+			<p class="gma_wpjmccp_single_job_listing_description">
+				<?php echo esc_textarea( $post_type_description); ?>
+			</p>
+			<h1 class="entry-title">Jobs by 
+				<strong>
+					<?php echo esc_textarea($post_type_name); ?>
+				</strong> 
+			</h1>
 		
 		</header>
 
@@ -62,9 +72,13 @@ get_header(); ?>
             <!-- ## FRONT-END DISPLAY ## -->
             <div class="gma_wpjmccp_single_job_listing">
 				<span>
-					<strong><?php echo  $job_title  ?></strong>
+					<strong>
+						<?php echo esc_textarea($job_title); ?>
+					</strong>
 				</span>
-				<a class="gma_wpjmccp_single_job_listing_ahref" href="<?php echo $job_url ?>">
+				<a class="gma_wpjmccp_single_job_listing_ahref" href="
+					<?php echo esc_html($job_url); ?>
+				">
 					<input class="application_button button" value="Apply for job" type="button" >
 				</a>
 			</div>
@@ -81,14 +95,24 @@ get_header(); ?>
 		
 		<?php
 		
-			$website_meta = get_term_meta( $post_type_term_taxonomy_id ); 
-			$echoed_website_meta = $website_meta["__term_meta_text"][0];
+			$website_meta = get_term_meta( $post_type_term_taxonomy_id );
+
+			if (!empty($website_meta["__term_meta_text"][0])) {
+
+				$echoed_website_meta = "<strong>Company Website: </strong>" . 
+				"<a href=" . esc_url($website_meta["__term_meta_text"][0]) . ">" . $post_type_name . "</a>";
+
+			} else {
+				
+				$echoed_website_meta = "";
+
+			}
 		
         ?>
 
         <div id="gma_wpjmccp_single_job_listing_website">
 			<span>
-				<strong>Company Website:</strong> <?php echo  $echoed_website_meta  ?>
+					<?php echo $echoed_website_meta; ?>
 			</span>
 		</div>
 

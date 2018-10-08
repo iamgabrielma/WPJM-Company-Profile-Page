@@ -52,7 +52,7 @@ if ( !class_exists( 'WP_Job_Manager' ) ) {
 */
 function add_gma_wpjmccp_scripts(){
 	
-	wp_enqueue_style( 'gma_wpjmccp_style', plugins_url() . '/wpjm-company-profile-page/style.css',false,'1.1','all');
+	wp_enqueue_style( 'gma_wpjmccp_style', plugin_dir_url(__FILE__) . 'style.css',false,'1.1','all');
 }
 
 /*
@@ -60,7 +60,7 @@ function add_gma_wpjmccp_scripts(){
 */
 function add_gma_wpjmccp_admin_scripts(){
 	
-	wp_enqueue_style( 'gma_wpjmccp_admin_style', plugins_url() . '/wpjm-company-profile-page/admin_style.css',false,'1.1','all');
+	wp_enqueue_style( 'gma_wpjmccp_admin_style', plugin_dir_url(__FILE__) . 'admin_style.css',false,'1.1','all');
 }
 
 /*
@@ -68,7 +68,6 @@ function add_gma_wpjmccp_admin_scripts(){
 */
 function gma_wpjmccp_companies_archive_page_template( $template ){
 
-	$plugins_url = plugins_url();
 	$plugin_dir_path = plugin_dir_path( __FILE__ );
 	$company_template_url = $plugin_dir_path . 'company-archive-page-template.php';
 	
@@ -92,8 +91,7 @@ function gma_wpjmcpp_job_taxonomy_init(){
 		'companies',
 		'job_listing',
 		array(
-			'label' => __( 'Companies' ),
-			'description' => 'testestdescription',
+			'label' => __( 'Companies', 'wpjm-company-profile-page' ),
 			'rewrite' => array( 'slug' => 'company'),
 			'public' => true
 		)
@@ -105,7 +103,7 @@ function gma_wpjmcpp_job_taxonomy_init(){
 */
 function gma_wpjmcpp_edit_term_columns( $columns ) {
 
-    $columns['__term_meta_text'] = __( 'Company website', 'wpjm-company-profile-page' );
+    $columns['__term_meta_text'] = _e( 'Company website', 'wpjm-company-profile-page' );
 
     return $columns;
 }
@@ -168,7 +166,8 @@ function gma_wpjmcpp_save_term_meta_text( $term_id ){
 	$old_value  = gma_wpjmcpp_get_term_meta_text( $term_id );
 
     if (isset( $_POST['term_meta_text'] )) {
-    	$new_value = $_POST['term_meta_text'];
+    	// sanitize_url() deprecated in favor of: esc_url() is intended for output, while esc_url_raw() is intended for database storage
+    	$new_value = esc_url_raw($_POST['term_meta_text']);
     }
 
 	update_term_meta( $term_id, '__term_meta_text', $new_value );
@@ -194,7 +193,7 @@ function gma_wpjmcpp_manage_term_custom_column( $out, $column, $term_id ) {
 }
 
 /* 
-* Taxonomy metadata : Display "Company Profile" link in single job listings 
+* Taxonomy metadata : Display "Company Profile" link in single job listings
 */
 function gma_wpjmcpp_display_job_meta_data() {
   
@@ -205,10 +204,11 @@ function gma_wpjmcpp_display_job_meta_data() {
   $single_company_slug = $the_new_company_taxonomy[0]->slug;
   $url = site_url() . '/company/' . $single_company_slug;
 
+  // Checks if the company name has been added as a tag to the individual job listing
   if (!empty($data)) {
-  	$company_name = "<li><a href='" . $url . "'>" . $data . " profile</a></li>";	
+  	$company_name = "<li><a href='" . esc_url( $url ) . "'>" . esc_html( $data ) . " profile</a></li>";	
   } else {
-  	$company_name = "<li><a href='" . $url . "'>" . $data . "Company profile</a></li>";	
+  	$company_name = "<li><a href='" . esc_url( $url ) . "'>Company profile</a></li>";	
   }
 
   echo $company_name;
@@ -221,7 +221,7 @@ function gma_wpjmcpp_display_job_meta_data() {
 function gma_wpjmcpp_admin_notice__error(){
 
 	$class = 'notice notice-error';
-	$message = __( 'An error has occurred. WP Job Manager must be installed in order to use WPJM Company Profile Page plugin', 'wpjm-company-profile-page' );
+	$message = _e( 'An error has occurred. WP Job Manager must be installed in order to use WPJM Company Profile Page plugin', 'wpjm-company-profile-page' );
 	/* 
 	* Debug: error_log( print_r( $message , true ) );
 	*/
