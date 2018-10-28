@@ -22,8 +22,8 @@ For setting up the company pages, you can find a step by step guide here: https:
 
 == Changelog ==
 
-= 1.0.0 =
+= 1.0 =
 * Hello World
 
-= 1.0.1 =
+= 1.1 =
 * Tested up to WordPress 5.0
