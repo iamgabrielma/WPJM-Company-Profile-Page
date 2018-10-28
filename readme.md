@@ -17,8 +17,8 @@ Documentation can be found here: https://tilcode.blog/wpjm-company-profile-page-
 
 == Changelog ==
 
-= 1.0.0 =
+= 1.0 =
 - Hello World
 
-= 1.0.1 =
+= 1.1 =
 - Tested up to WordPress 5.0
