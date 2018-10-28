@@ -5,7 +5,7 @@
  * Description: Adds a company profile page to WP Job Manager. In this page you'll be able to see listed all the jobs by the same company, as well as other data like the company description.
  * Author:      Gabriel Maldonado
  * Author URI:  https://tilcode.blog/
- * Version:     1.0
+ * Version:     1.1
  * Text Domain: wpjm-company-profile-page
  * Domain Path: /languages
  *
@@ -27,6 +27,8 @@ if ( !class_exists( 'WP_Job_Manager' ) ) {
 	add_action( 'admin_notices', 'gma_wpjmcpp_admin_notice__error' );
 
 } else {
+
+	add_action( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'gma_wpjmcpp_add_support_link_to_plugin_page' );
 
 	add_action( 'single_job_listing_meta_end', 'gma_wpjmcpp_display_job_meta_data' );
 	add_action( 'init', 'gma_wpjmcpp_job_taxonomy_init');
@@ -61,6 +63,17 @@ function add_gma_wpjmccp_scripts(){
 function add_gma_wpjmccp_admin_scripts(){
 	
 	wp_enqueue_style( 'gma_wpjmccp_admin_style', plugin_dir_url(__FILE__) . 'admin_style.css',false,'1.1','all');
+}
+
+/**
+* Adds a direct support link under the Plugins Page once the plugin is activated
+**/
+function gma_wpjmcpp_add_support_link_to_plugin_page( $links ){
+
+    $links = array_merge( array(
+        '<a href="https://wordpress.org/support/plugin/wpjm-company-profile-page" target="_blank">' . __( 'Support', 'wpjm-company-profile-page' ) . '</a>'
+    ), $links );
+    return $links;
 }
 
 /*
