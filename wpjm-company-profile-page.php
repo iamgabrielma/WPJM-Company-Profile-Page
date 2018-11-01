@@ -215,7 +215,7 @@ function gma_wpjmcpp_display_job_meta_data() {
   $data = get_post_meta( $post->ID, "_company_name", true);
   $the_new_company_taxonomy = wp_get_post_terms($post->ID, 'companies');
   $single_company_slug = $the_new_company_taxonomy[0]->slug;
-  $url = site_url() . '/company/' . $single_company_slug;
+  $url = home_url() . '/company/' . $single_company_slug;
 
   // Checks if the company name has been added as a tag to the individual job listing
   if (!empty($data)) {
