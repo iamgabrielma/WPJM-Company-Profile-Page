@@ -5,7 +5,7 @@
  * Description: Adds a company profile page to WP Job Manager. In this page you'll be able to see listed all the jobs by the same company, as well as other data like the company description.
  * Author:      Gabriel Maldonado
  * Author URI:  https://tilcode.blog/
- * Version:     1.1
+ * Version:     1.2
  * Text Domain: wpjm-company-profile-page
  * Domain Path: /languages
  *
@@ -19,35 +19,27 @@ if (! defined( 'ABSPATH' )) {
 	exit;
 }
 
-/**
-* Check if WP Job Manager is installed and active
+
+add_action( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'gma_wpjmcpp_add_support_link_to_plugin_page' );
+
+add_action( 'single_job_listing_meta_end', 'gma_wpjmcpp_display_job_meta_data' );
+add_action( 'init', 'gma_wpjmcpp_job_taxonomy_init');
+add_action( 'template_include', 'gma_wpjmccp_companies_archive_page_template' );
+/*
+* Meta management for the custom "Company" taxonomy
 */
-if ( !class_exists( 'WP_Job_Manager' ) ) {
+add_filter( 'manage_edit-companies_columns', 'gma_wpjmcpp_edit_term_columns' );
+add_action( 'companies_add_form_fields', 'gma_wpjmcpp_add_form_field_term_meta_text' );
+add_action( 'companies_edit_form_fields', 'gma_wpjmcpp_edit_form_field_term_meta_text' );
+add_filter( 'manage_companies_custom_column', 'gma_wpjmcpp_manage_term_custom_column', 10, 3 );
+add_action( 'edit_companies',   'gma_wpjmcpp_save_term_meta_text' );
+add_action( 'create_companies',   'gma_wpjmcpp_save_term_meta_text' );
+/*
+* Scripts and styles
+*/
+add_action( 'wp_enqueue_scripts', 'add_gma_wpjmccp_scripts' );
+add_action( 'admin_enqueue_scripts', 'add_gma_wpjmccp_admin_scripts' );
 
-	add_action( 'admin_notices', 'gma_wpjmcpp_admin_notice__error' );
-
-} else {
-
-	add_action( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'gma_wpjmcpp_add_support_link_to_plugin_page' );
-
-	add_action( 'single_job_listing_meta_end', 'gma_wpjmcpp_display_job_meta_data' );
-	add_action( 'init', 'gma_wpjmcpp_job_taxonomy_init');
-	add_action( 'template_include', 'gma_wpjmccp_companies_archive_page_template' );
-	/*
-	* Meta management for the custom "Company" taxonomy
-	*/
-	add_filter( 'manage_edit-companies_columns', 'gma_wpjmcpp_edit_term_columns' );
-	add_action( 'companies_add_form_fields', 'gma_wpjmcpp_add_form_field_term_meta_text' );
-	add_action( 'companies_edit_form_fields', 'gma_wpjmcpp_edit_form_field_term_meta_text' );
-	add_filter( 'manage_companies_custom_column', 'gma_wpjmcpp_manage_term_custom_column', 10, 3 );
-	add_action( 'edit_companies',   'gma_wpjmcpp_save_term_meta_text' );
-	add_action( 'create_companies',   'gma_wpjmcpp_save_term_meta_text' );
-	/*
-	* Scripts and styles
-	*/
-	add_action( 'wp_enqueue_scripts', 'add_gma_wpjmccp_scripts' );
-	add_action( 'admin_enqueue_scripts', 'add_gma_wpjmccp_admin_scripts' );
-}
 
 /*
 * Front-end styles

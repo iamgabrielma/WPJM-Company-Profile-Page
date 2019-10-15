@@ -2,7 +2,7 @@
 
 Contributors: gma992
 Tags: job manager, job listing, job board, job management, job lists, job list, job, jobs, company, hiring, employment, employer, employees, candidate, freelance, internship, job listings, positions, board, application, hiring, listing, manager, recruiting, recruitment, talent
-Tested up to: 5.0
+Tested up to: 5.2.4
 License: GPLv2+
 
 == Description ==
@@ -27,3 +27,6 @@ For setting up the company pages, you can find a step by step guide here: https:
 
 = 1.1 =
 * Tested up to WordPress 5.0
+
+= 1.2 =
+* Tested up to WordPress 5.2.4
