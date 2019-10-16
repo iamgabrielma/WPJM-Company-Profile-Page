@@ -22,6 +22,7 @@ if (! defined( 'ABSPATH' )) {
 
 add_action( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'gma_wpjmcpp_add_support_link_to_plugin_page' );
 
+
 add_action( 'single_job_listing_meta_end', 'gma_wpjmcpp_display_job_meta_data' );
 add_action( 'init', 'gma_wpjmcpp_job_taxonomy_init');
 add_action( 'template_include', 'gma_wpjmccp_companies_archive_page_template' );
