@@ -5,7 +5,7 @@
  * Description: Adds a company profile page to WP Job Manager. In this page you'll be able to see listed all the jobs by the same company, as well as other data like the company description.
  * Author:      Gabriel Maldonado
  * Author URI:  https://tilcode.blog/
- * Version:     1.2
+ * Version:     1.2.1
  * Text Domain: wpjm-company-profile-page
  * Domain Path: /languages
  *
@@ -21,6 +21,7 @@ if (! defined( 'ABSPATH' )) {
 
 
 add_action( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'gma_wpjmcpp_add_support_link_to_plugin_page' );
+
 
 add_action( 'single_job_listing_meta_end', 'gma_wpjmcpp_display_job_meta_data' );
 add_action( 'init', 'gma_wpjmcpp_job_taxonomy_init');
@@ -75,9 +76,10 @@ function gma_wpjmccp_companies_archive_page_template( $template ){
 
 	$plugin_dir_path = plugin_dir_path( __FILE__ );
 	$company_template_url = $plugin_dir_path . 'company-archive-page-template.php';
-	
-	if ( is_tax('companies') ) {
 
+	if ( is_tax($taxonomy="companies") ) { 
+
+    // TODO: Sometimes this fails as is_tax() returns NULL. This can be fixed flushing the cache via $wp_rewrite->flush_rules( true ); but is an expensive operation. Would be a good idea to integrate this somehow if the page returns a 404 for example.
 		$template = $company_template_url;
 		return $template;
 	
@@ -88,7 +90,7 @@ function gma_wpjmccp_companies_archive_page_template( $template ){
 }
 
 /*
-* Creates custom companies/company taxonomy
+* Creates custom companies/company taxonomy. This will show under Job Listings > Companies as well as within the Editor metabox
 */
 function gma_wpjmcpp_job_taxonomy_init(){
 
@@ -98,7 +100,12 @@ function gma_wpjmcpp_job_taxonomy_init(){
 		array(
 			'label' => __( 'Companies', 'wpjm-company-profile-page' ),
 			'rewrite' => array( 'slug' => 'company'),
-			'public' => true
+			'public' => true,
+      /*
+      Necessary after WP 5.0+ in order to show the metabox within the editor. Since the editor operates using the REST API, taxonomies and post types must be whitelisted to be accessible within the editor.
+      https://developer.wordpress.org/reference/functions/register_taxonomy/
+      */
+      'show_in_rest' => true,
 		)
 	);
 }
@@ -205,9 +212,21 @@ function gma_wpjmcpp_display_job_meta_data() {
   global $post;
 
   $data = get_post_meta( $post->ID, "_company_name", true);
+  // ##
+  //var_dump($data); // string(0) in http://localhost:8888/local/job/new-job-2/
+  //wp_die();
+  // ##
   $the_new_company_taxonomy = wp_get_post_terms($post->ID, 'companies');
-  $single_company_slug = $the_new_company_taxonomy[0]->slug;
-  $url = home_url() . '/company/' . $single_company_slug;
+  // ##
+  //var_dump($the_new_company_taxonomy); // OK, data added in wp-admin is here.
+  //wp_die();
+  // ##
+
+  
+      $single_company_slug = $the_new_company_taxonomy[0]->slug;
+      $url = home_url() . '/company/' . $single_company_slug; // OK, page is created.
+
+
 
   // Checks if the company name has been added as a tag to the individual job listing
   if (!empty($data)) {

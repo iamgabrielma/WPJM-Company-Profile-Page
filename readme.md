@@ -25,3 +25,6 @@ Documentation can be found here: https://tilcode.blog/wpjm-company-profile-page-
 
 = 1.2 =
 - Tested up to WordPress 5.2.4
+
+= 1.2.1 =
+- Enabled metabox for the new Editor since WP5.0+

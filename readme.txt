@@ -30,3 +30,6 @@ For setting up the company pages, you can find a step by step guide here: https:
 
 = 1.2 =
 * Tested up to WordPress 5.2.4
+
+= 1.2.1 =
+* Enabled metabox for the new Editor since WP5.0+
